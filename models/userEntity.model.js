@@ -21,6 +21,7 @@ const UserEntity = sequelize.define('UserEntities', {
     timestamps: false
 });
 
+
 User.belongsToMany(Entity, { through: UserEntity, foreignKey: 'userId' });
 Entity.belongsToMany(User, { through: UserEntity, foreignKey: 'entityId' });
 sequelize.sync()
