@@ -32,10 +32,15 @@ const removeUserEntity = async (userId, entityId) => {
     return { userId, entityId };
 };
 
+const getAllUserEntities = async () => {
+    return await UserEntity.findAll();
+};
+
 module.exports = {
     addUserEntity,
     getEntitiesOfUser,
     getUsersOfEntity,
     removeUserEntity,
-    getUserEntityById
+    getUserEntityById,
+    getAllUserEntities
 };
