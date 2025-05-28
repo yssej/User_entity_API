@@ -1,9 +1,13 @@
 <script setup>
 import HelloWorld from './components/HelloWorld.vue'
+import SideBar from './components/SideBar.vue'
+import Content from './components/Content.vue'
 </script>
 
 <template>
-  <div>
+  <SideBar @select="selected = $event"/>
+  <router-view class="p-6 ml-0 md:ml-64" />
+  <!-- <div>
     <a href="https://vite.dev" target="_blank">
       <img src="/vite.svg" class="logo" alt="Vite logo" />
     </a>
@@ -11,7 +15,7 @@ import HelloWorld from './components/HelloWorld.vue'
       <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
     </a>
   </div>
-  <HelloWorld msg="Vite + Vue" />
+  <HelloWorld msg="Vite + Vue" /> -->
 </template>
 
 <style scoped>
