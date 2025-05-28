@@ -1,6 +1,5 @@
 const express = require('express');
-const Entity = require('./models/entity.model');
-const User = require('./models/user.model');
+const userEntityService = require('./services/userEntity.service');
 const sequelize = require('./config/database');
 require('./models/userEntity.model');
 
@@ -14,38 +13,14 @@ app.get('/', (req, res) => {
     res.send('Hello, Node.js!');
 });
 
-app.get('/seed-user-entities', async (req, res) => {
+app.get('/user-entity/:id', async (req, res) => {
     try {
-        const user = await User.create({
-            name: 'Lefevre',
-            firstName: 'Julie',
-            language: 'fr',
-            email: 'julie.lefevre@mail.com',
-            password: 'password3'
-        });
-
-        const entity1 = await Entity.create({
-            name: 'Entreprise Alpha',
-            description: 'Première entreprise',
-            siret: '11111111111111',
-            keyLicence: 'LIC-ALPHA',
-            website: 'https://alpha.com'
-        });
-
-        const entity2 = await Entity.create({
-            name: 'Entreprise Beta',
-            description: 'Deuxième entreprise',
-            siret: '22222222222222',
-            keyLicence: 'LIC-BETA',
-            website: 'https://beta.com'
-        });
-
-        await user.addEntities([entity1, entity2]);
-
-        res.json({ user, entities: [entity1, entity2] });
+        const entities = await userEntityService.getUserEntityById(req.params.id);
+        if (!entities) return res.status(404).json({ error: 'Utilisateur non trouvé' });
+        res.json(entities);
     } catch (err) {
         console.error(err);
-        res.status(500).json({ error: 'Erreur lors de la création' });
+        res.status(500).json({ error: 'Erreur lors de la récupération des entités' });
     }
 });
 
