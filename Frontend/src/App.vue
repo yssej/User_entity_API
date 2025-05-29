@@ -5,8 +5,10 @@ import Content from './components/Content.vue'
 </script>
 
 <template>
-  <SideBar @select="selected = $event"/>
-  <router-view class="p-6 ml-0 md:ml-64" />
+  <SideBar />
+  <div class="p-6 md:ml-64 transition-all duration-300">
+    <router-view />
+  </div>
   <!-- <div>
     <a href="https://vite.dev" target="_blank">
       <img src="/vite.svg" class="logo" alt="Vite logo" />
@@ -19,16 +21,5 @@ import Content from './components/Content.vue'
 </template>
 
 <style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
+
 </style>
