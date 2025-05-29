@@ -1,28 +1,54 @@
 <template>
-  
-    <button data-drawer-target="default-sidebar" data-drawer-toggle="default-sidebar" aria-controls="default-sidebar" type="button" class="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
-        <span class="sr-only">Open sidebar</span>
-        <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-            <path clip-rule="evenodd" fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
-        </svg>
+  <div>
+    <!-- Bouton hamburger pour mobile -->
+    <button
+      class="md:hidden p-2 m-2 rounded bg-gray-200"
+      @click="open = !open"
+      aria-label="Ouvrir le menu"
+    >
+      <svg v-if="!open" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+        viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+      <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+        viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M6 18L18 6M6 6l12 12" />
+      </svg>
     </button>
 
-    <aside id="default-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
-        <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
-            <ul class="space-y-2 font-medium">
-                <li>
-                    <router-link to="/users" class="py-2 px-4 rounded hover:bg-gray-100 text-left">Users</router-link>
-                </li>
-                <li>
-                    <router-link to="/entities" class="py-2 px-4 rounded hover:bg-gray-100 text-left">Entities</router-link>
-                </li>
-                <li>
-                    <router-link to="/userentities" class="py-2 px-4 rounded hover:bg-gray-100 text-left">UserEntities</router-link>
-                </li>
-            </ul>
-        </div>
+    <!-- Sidebar -->
+    <aside
+      :class="[
+        'fixed top-0 left-0 h-full bg-white shadow-md z-40 transition-transform duration-200',
+        open ? 'translate-x-0' : '-translate-x-full',
+        'w-64 md:translate-x-0 md:static md:block'
+      ]"
+      aria-label="Sidebar"
+    >
+      <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
+        <ul class="space-y-2 font-medium">
+          <li>
+            <router-link to="/users" class="py-2 px-4 rounded hover:bg-gray-100 text-left block">Users</router-link>
+          </li>
+          <li>
+            <router-link to="/entities" class="py-2 px-4 rounded hover:bg-gray-100 text-left block">Entities</router-link>
+          </li>
+          <li>
+            <router-link to="/userentities" class="py-2 px-4 rounded hover:bg-gray-100 text-left block">UserEntities</router-link>
+          </li>
+        </ul>
+      </div>
     </aside>
 
+    <!-- Overlay pour mobile -->
+    <div
+      v-if="open"
+      class="fixed inset-0 bg-black bg-opacity-30 z-30 md:hidden"
+      @click="open = false"
+    ></div>
+  </div>
 </template>
 
 <script setup>
