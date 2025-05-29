@@ -27,7 +27,7 @@ Ce projet est une application fullstack de gestion d’utilisateurs, d’entité
 ### 1. Cloner le projet
 
 ```bash
-git clone [<url-du-repo>](https://github.com/yssej/User_entity_API.git)
+git clone https://github.com/yssej/User_entity_API.git
 ```
 
 ### 2. Installer les dépendances
