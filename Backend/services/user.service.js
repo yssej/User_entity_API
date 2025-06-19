@@ -4,8 +4,18 @@ const createUser = async (userData) => {
     return await User.create(userData);
 };
 
-const getAllUsers = async () => {
-    return await User.findAll();
+const getAllUsers = async (page = 1, limit = 5) => {
+    const offset = (page - 1) * limit;
+    const { count, rows } = await User.findAndCountAll({
+        offset,
+        limit
+    });
+    return {
+        data: rows,
+        total: count,
+        page,
+        totalPages: Math.ceil(count / limit)
+    };
 };
 
 const getUserById = async (id) => {

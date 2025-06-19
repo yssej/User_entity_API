@@ -13,8 +13,12 @@ const createUser = async (req, res) => {
 // Get all users
 const getAllUsers = async (req, res) => {
     try {
-        const users = await userService.getAllUsers();
-        res.json(users);
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 5;
+        
+        const result = await userService.getAllUsers(page, limit);
+        console.log("hahahahaha");
+        res.json(result);
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
