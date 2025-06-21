@@ -17,7 +17,6 @@ const getAllUsers = async (req, res) => {
         const limit = parseInt(req.query.limit) || 5;
         
         const result = await userService.getAllUsers(page, limit);
-        console.log("hahahahaha");
         res.json(result);
     } catch (err) {
         res.status(500).json({ error: err.message });

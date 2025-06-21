@@ -4,8 +4,15 @@ const createEntity = async (entityData) => {
     return await Entity.create(entityData);
 };
 
-const getAllEntitys = async () => {
-    return await Entity.findAll();
+const getAllEntitys = async (page = 1, limit = 5) => {
+    const offset = (page - 1) * limit;
+    const { count, rows } = await Entity.findAndCountAll({ offset, limit });
+    return {
+        data: rows,
+        total: count,
+        page,
+        totalPages: Math.ceil(count / limit)
+    };
 };
 
 const getEntityById = async (id) => {

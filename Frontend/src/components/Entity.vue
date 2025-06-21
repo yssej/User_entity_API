@@ -151,6 +151,11 @@
           </tr>
       </tbody>
     </table>
+    <div class="flex justify-center mt-4">
+      <button @click="goToPage(page - 1)" :disabled="page <= 1" class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 disabled:opacity-50">Previous</button>
+      <span class="mx-2">Page {{ page }} of {{ totalPages }}</span>
+      <button @click="goToPage(page + 1)" :disabled="page >= totalPages" class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 disabled:opacity-50">Next</button>
+  </div>
   </div>
 </template>
 
@@ -161,16 +166,27 @@
   const showModal = ref(false)
   const modalUpdate = ref(false)
 
-  const entityList = ref([])
+  const entityList = ref([])  
+  const page = ref(1)
+  const limit = ref(5)
+  const totalPages = ref(1)
   const newEntity = ref({ name: '', description: '', siret: '', keyLicence: '', website: '' })
   const editId = ref(null)
   const editEntity = ref({ name: '', description: '', siret: '', keyLicence: '', website: '' })
   const errorMsg = ref('')
 
   const fetchEntities = async () => {
-    const res = await entityService.getAll()
+    const res = await entityService.getAll(page.value, limit.value)
     console.log(res)
-    entityList.value = res.data
+    entityList.value = res.data.data
+    totalPages.value = res.data.totalPages
+  }
+
+  const goToPage = (p) => {
+    if (p >= 1 && p <= totalPages.value) {
+      page.value = p
+      fetchEntities()
+    }
   }
 
   const handleCreateEntity = async () => {

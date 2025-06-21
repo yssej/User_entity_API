@@ -14,7 +14,10 @@ const createEntity = async (req, res) => {
 // Get all entities
 const getAllEntities = async (req, res) => {
     try {
-        const entities = await entityService.getAllEntitys();
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 5;
+
+        const entities = await entityService.getAllEntitys(page, limit);
         res.json(entities);
     } catch (err) {
         res.status(500).json({ error: err.message });
