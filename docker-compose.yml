@@ -1,0 +1,46 @@
+version: "3.9"
+
+services:
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+      MYSQL_DATABASE: User_entity_API
+    volumes:
+      - db-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+  backend:
+    build:
+      context: ./Backend
+    environment:
+      NODE_ENV: production
+      DB_HOST: db
+      DB_USER: root
+      DB_PASSWORD: example
+      DB_NAME: User_entity_API
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    volumes:
+      - ./Backend:/usr/src/app     # FIX ici
+      - /usr/src/app/node_modules
+
+  frontend:
+    build:
+      context: ./Frontend
+    environment:
+      VITE_API_URL: http://localhost:3000
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    volumes:
+      - ./Frontend:/usr/src/app    # FIX ici
+      - /usr/src/app/node_modules
+
+volumes:
+  db-data:
