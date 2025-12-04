@@ -170,6 +170,11 @@
         </tr>
     </tbody>
   </table>
+  <div class="flex justify-center mt-4">
+    <button @click="goToPage(page - 1)" :disabled="page <= 1" class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 disabled:opacity-50">Previous</button>
+    <span class="mx-2">Page {{ page }} of {{ totalPages }}</span>
+    <button @click="goToPage(page + 1)" :disabled="page >= totalPages" class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 disabled:opacity-50">Next</button>
+  </div>
 </template>
 
 <script setup>
@@ -181,15 +186,26 @@ const showModal = ref(false)
 const modalUpdate = ref(false)
 
 const userList = ref([])
+const page = ref(1)
+const limit = ref(5)
+const totalPages = ref(1)
 const newUser = ref({ name: '', firstName: '', email: '', language: '', password: '', pwdConfirm: '' })
 const editId = ref(null)
 const editUser = ref({ name: '', firstName: '', email: '', language: '', password: '', pwdConfirm: '' })
 const errorMsg = ref('')
 
 const fetchUsers = async () => {
-  const res = await userService.getAll()
+  const res = await userService.getAll(page.value, limit.value)
   console.log(res)
-  userList.value = res.data
+  userList.value = res.data.data
+  totalPages.value = res.data.totalPages
+}
+
+const goToPage = (p) => {
+  if (p >= 1 && p <= totalPages.value) {
+    page.value = p
+    fetchUsers()
+  }
 }
 
 const handleCreateUser = async () => {

@@ -3,8 +3,8 @@ import axios from 'axios'
 const API_URL = 'http://localhost:3000/users'
 
 export default {
-  getAll() {
-    return axios.get(API_URL)
+  getAll(page = 1, limit = 5) {
+    return axios.get(`${API_URL}?page=${page}&limit=${limit}`)
   },
   getById(id) {
     return axios.get(`${API_URL}/${id}`)
